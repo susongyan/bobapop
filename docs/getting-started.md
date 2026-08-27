@@ -69,7 +69,7 @@ watchdog 只会续租当前 token，不会在续租失败后重新抢锁；续�
 
 ## Jedis
 
-Jedis 2.x/3.x 使用 `bobapop-jedis-legacy`，多线程应用优先传入 `JedisPool`：
+Jedis 2.x/3.x 使用 `boba-grip-jedis-legacy`，多线程应用优先传入 `JedisPool`：
 
 ```java
 JedisPool pool = new JedisPool("127.0.0.1", 6379);
@@ -77,7 +77,7 @@ RedisLockClient client = new RedisLockClient(
         new JedisLegacyLockBackend(pool), "order-service:lock:");
 ```
 
-Jedis 4.x+ 使用 `bobapop-jedis-modern`，可传入 `JedisPooled`、`JedisCluster`、`UnifiedJedis` 或 `JedisPool`：
+Jedis 4.x+ 使用 `boba-grip-jedis-modern`，可传入 `JedisPooled`、`JedisCluster`、`UnifiedJedis` 或 `JedisPool`：
 
 ```java
 UnifiedJedis jedis = new JedisPooled("127.0.0.1", 6379);

@@ -1,4 +1,4 @@
-# Bobapop
+# BobaGrip
 
 一个不依赖 Redisson 的轻量 Redis 分布式锁组件，支持：
 
@@ -6,6 +6,14 @@
 - Spring Boot 1.x、2.x、3.x；
 - 固定租约、对象级重入和显式 watchdog；
 - Redis Standalone、主从和 Cluster 的单 key 锁场景。
+
+## 项目命名
+
+- 展示名：`BobaGrip`
+- GitHub：`git@github.com:susongyan/boba-grip.git`
+- Maven parent：`boba-grip-parent`
+- 模块：`boba-grip-*`
+- Java 包名：`io.github.susongyan.bobagrip`
 
 ## 先了解边界
 
@@ -28,12 +36,12 @@
 ```xml
 <dependency>
     <groupId>io.github.susongyan</groupId>
-    <artifactId>bobapop-spring-data-redis</artifactId>
-    <version>${bobapop.version}</version>
+    <artifactId>boba-grip-spring-data-redis</artifactId>
+    <version>${boba-grip.version}</version>
 </dependency>
 ```
 
-将 `${bobapop.version}` 替换为团队发布的实际版本。当前源码版本为 `0.1.0-SNAPSHOT`；如果尚未发布到 Maven 私服，
+将 `${boba-grip.version}` 替换为团队发布的实际版本。当前源码版本为 `0.1.0-SNAPSHOT`；如果尚未发布到 Maven 私服，
 可以在项目根目录执行 `mvn -DskipTests install` 安装到本地仓库后使用该版本。
 
 Spring Data Redis 和底层 Redis 客户端版本由业务项目或 Spring Boot BOM 管理。
@@ -235,9 +243,9 @@ watchdog 行为：
 
 如果不使用 `RedisTemplate`：
 
-- Jedis 2.x/3.x：`bobapop-jedis-legacy` + `JedisPool`；
-- Jedis 4.x+：`bobapop-jedis-modern` + `JedisPooled`、`JedisCluster` 或 `UnifiedJedis`；
-- Lettuce 5.x+：`bobapop-lettuce` + `StatefulRedisConnection` 或 Cluster connection。
+- Jedis 2.x/3.x：`boba-grip-jedis-legacy` + `JedisPool`；
+- Jedis 4.x+：`boba-grip-jedis-modern` + `JedisPooled`、`JedisCluster` 或 `UnifiedJedis`；
+- Lettuce 5.x+：`boba-grip-lettuce` + `StatefulRedisConnection` 或 Cluster connection。
 
 完整配置和连接生命周期说明见[快速开始与客户端接入](docs/getting-started.md)。
 
@@ -245,11 +253,11 @@ watchdog 行为：
 
 | 模块 | 用途 | 编译基线 |
 | --- | --- | --- |
-| `bobapop-core` | 锁算法、watchdog 和公共 API | Java 8 |
-| `bobapop-spring-data-redis` | `StringRedisTemplate` 适配器 | Spring Data Redis 1.8 baseline |
-| `bobapop-jedis-legacy` | Jedis 2.x/3.x standalone、主从、Cluster | Jedis 2.9 baseline |
-| `bobapop-jedis-modern` | Jedis 4.x+ standalone、主从、Cluster | Jedis 4.4 baseline |
-| `bobapop-lettuce` | Lettuce 5.x+ 同步和 Cluster 适配器 | Lettuce 5.3 baseline |
+| `boba-grip-core` | 锁算法、watchdog 和公共 API | Java 8 |
+| `boba-grip-spring-data-redis` | `StringRedisTemplate` 适配器 | Spring Data Redis 1.8 baseline |
+| `boba-grip-jedis-legacy` | Jedis 2.x/3.x standalone、主从、Cluster | Jedis 2.9 baseline |
+| `boba-grip-jedis-modern` | Jedis 4.x+ standalone、主从、Cluster | Jedis 4.4 baseline |
+| `boba-grip-lettuce` | Lettuce 5.x+ 同步和 Cluster 适配器 | Lettuce 5.3 baseline |
 | `demo/boot1`、`demo/boot2`、`demo/boot3` | Boot 1.5、2.x、3.x 编译兼容示例 | 对应 Boot BOM |
 
 ## 研发接入检查清单

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.github.susongyan</groupId>
-    <artifactId>bobapop-parent</artifactId>
+    <artifactId>boba-grip-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
@@ -26,7 +26,7 @@
   <dependencies>
     <dependency>
       <groupId>io.github.susongyan</groupId>
-      <artifactId>bobapop-spring-data-redis</artifactId>
+      <artifactId>boba-grip-spring-data-redis</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
