@@ -2,16 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.susongyan</groupId>
-  <artifactId>boba-grip-parent</artifactId>
+  <artifactId>boba-pop-parent</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>boba-grip</name>
+  <name>boba-pop</name>
   <modules>
-    <module>boba-grip-core</module>
-    <module>boba-grip-spring-data-redis</module>
-    <module>boba-grip-jedis-legacy</module>
-    <module>boba-grip-jedis-modern</module>
-    <module>boba-grip-lettuce</module>
+    <module>boba-pop-core</module>
+    <module>boba-pop-spring-data-redis</module>
+    <module>boba-pop-jedis-legacy</module>
+    <module>boba-pop-jedis-modern</module>
+    <module>boba-pop-lettuce</module>
     <module>demo/boot1</module>
     <module>demo/boot2</module>
     <module>demo/boot3</module>
@@ -29,27 +29,27 @@
     <dependencies>
       <dependency>
         <groupId>io.github.susongyan</groupId>
-        <artifactId>boba-grip-core</artifactId>
+        <artifactId>boba-pop-core</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.github.susongyan</groupId>
-        <artifactId>boba-grip-spring-data-redis</artifactId>
+        <artifactId>boba-pop-spring-data-redis</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.github.susongyan</groupId>
-        <artifactId>boba-grip-jedis-legacy</artifactId>
+        <artifactId>boba-pop-jedis-legacy</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.github.susongyan</groupId>
-        <artifactId>boba-grip-jedis-modern</artifactId>
+        <artifactId>boba-pop-jedis-modern</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.github.susongyan</groupId>
-        <artifactId>boba-grip-lettuce</artifactId>
+        <artifactId>boba-pop-lettuce</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

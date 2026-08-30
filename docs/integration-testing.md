@@ -10,9 +10,9 @@ mvn clean test
 
 ```bash
 docker compose up -d
-mvn -Dmaven.repo.local=/tmp/boba-grip-m2 \
+mvn -Dmaven.repo.local=/tmp/boba-pop-m2 \
     -Dredis.integration=true \
-    -pl boba-grip-jedis-modern -am test
+    -pl boba-pop-jedis-modern -am test
 ```
 
 ## Redis Cluster
@@ -35,21 +35,21 @@ docker compose -p redis-lock-cluster-it -f docker-compose.cluster.yml exec -T \
 运行 Jedis 主从切换测试：
 
 ```bash
-mvn -Dmaven.repo.local=/tmp/boba-grip-m2 \
+mvn -Dmaven.repo.local=/tmp/boba-pop-m2 \
     -Dredis.cluster.integration=true \
     -Dredis.cluster.nodes=127.0.0.1:7100,127.0.0.1:7101 \
     -Dredis.cluster.connect.host=127.0.0.1 \
-    -pl boba-grip-jedis-modern -am test
+    -pl boba-pop-jedis-modern -am test
 ```
 
 运行 Lettuce Cluster 测试：
 
 ```bash
-mvn -Dmaven.repo.local=/tmp/boba-grip-m2 \
+mvn -Dmaven.repo.local=/tmp/boba-pop-m2 \
     -Dredis.cluster.integration=true \
     -Dredis.cluster.nodes=127.0.0.1:7100,127.0.0.1:7101 \
     -Dredis.cluster.connect.host=127.0.0.1 \
-    -pl boba-grip-lettuce -am test
+    -pl boba-pop-lettuce -am test
 ```
 
 测试会等待锁复制到 replica，执行真实 `CLUSTER FAILOVER`，再验证 replica 晋升为 master 后，
