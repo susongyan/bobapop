@@ -11,7 +11,7 @@
 | 客户端 | 适配器 |
 | --- | --- |
 | Jedis 2.x/3.x `JedisCluster` | `JedisLegacyClusterLockBackend` |
-| Jedis 4.x+ `JedisCluster` | `JedisLockBackend` |
+| Jedis 4.x+ `JedisCluster`/`RedisClusterClient` | `JedisLockBackend` |
 | Lettuce `StatefulRedisClusterConnection` | `LettuceClusterLockBackend` |
 
 客户端连接、拓扑刷新、认证、TLS、超时和关闭由业务项目负责。
@@ -39,4 +39,3 @@ Jedis failover 测试会：
 这验证的是客户端拓扑刷新和 token 语义，不代表 Redis 主从切换期间严格只有一个 owner。异步复制窗口、
 网络分区或主节点在复制前故障，仍可能导致重复 owner；相关边界和 `WAIT` 分析见
 [主从切换与 WAIT 复制确认](replica-failover-and-wait.md)。
-

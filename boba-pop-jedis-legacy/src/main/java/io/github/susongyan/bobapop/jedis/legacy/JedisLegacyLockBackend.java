@@ -1,20 +1,14 @@
 package io.github.susongyan.bobapop.jedis.legacy;
 
-import io.github.susongyan.bobapop.core.RedisLockBackend;
+import io.github.susongyan.bobapop.core.AbstractRedisLockBackend;
+import io.github.susongyan.bobapop.core.RedisLockScripts;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.Collections;
 
 /** Direct Jedis 2.x/3.x adapter. Prefer the pool constructor for multi-threaded applications. */
-public final class JedisLegacyLockBackend implements RedisLockBackend {
-    private static final String RENEW_SCRIPT =
-            "if redis.call('get', KEYS[1]) == ARGV[1] then "
-                    + "return redis.call('pexpire', KEYS[1], ARGV[2]) end return 0";
-    private static final String UNLOCK_SCRIPT =
-            "if redis.call('get', KEYS[1]) == ARGV[1] then "
-                    + "return redis.call('del', KEYS[1]) end return 0";
-
+public final class JedisLegacyLockBackend extends AbstractRedisLockBackend {
     private final Jedis direct;
     private final JedisPool pool;
 
@@ -31,7 +25,8 @@ public final class JedisLegacyLockBackend implements RedisLockBackend {
         this.pool = null;
     }
 
-    public boolean acquire(final String key, final String token, final long leaseMillis) {
+    @Override
+    protected boolean setNxPx(final String key, final String token, final long leaseMillis) {
         return withJedis(new Operation<Boolean>() {
             public Boolean run(Jedis jedis) {
                 return "OK".equals(jedis.set(key, token, "NX", "PX", leaseMillis));
@@ -39,22 +34,13 @@ public final class JedisLegacyLockBackend implements RedisLockBackend {
         });
     }
 
-    public boolean renewIfOwner(final String key, final String token, final long leaseMillis) {
-        return withJedis(new Operation<Boolean>() {
-            public Boolean run(Jedis jedis) {
-                Object value = jedis.eval(RENEW_SCRIPT, Collections.singletonList(key),
-                        java.util.Arrays.asList(token, Long.toString(leaseMillis)));
-                return value instanceof Number && ((Number) value).longValue() == 1L;
-            }
-        });
-    }
-
-    public boolean deleteIfOwner(final String key, final String token) {
-        return withJedis(new Operation<Boolean>() {
-            public Boolean run(Jedis jedis) {
-                Object value = jedis.eval(UNLOCK_SCRIPT, Collections.singletonList(key),
-                        Collections.singletonList(token));
-                return value instanceof Number && ((Number) value).longValue() == 1L;
+    @Override
+    protected Object evalScript(final RedisLockScripts.Script script,
+                                final String key, final String... args) {
+        return withJedis(new Operation<Object>() {
+            public Object run(Jedis jedis) {
+                return jedis.eval(script.source(), Collections.singletonList(key),
+                        java.util.Arrays.asList(args));
             }
         });
     }

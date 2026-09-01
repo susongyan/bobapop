@@ -85,7 +85,9 @@ RedisLockClient client = new RedisLockClient(
         new JedisLockBackend(jedis), "order-service:lock:");
 ```
 
-Jedis 2.x/3.x Cluster 使用 `JedisLegacyClusterLockBackend`；Jedis 4.x+ 的 `JedisCluster` 可直接传入 `JedisLockBackend`。
+Jedis 2.x/3.x Cluster 使用 `JedisLegacyClusterLockBackend`；Jedis 4.x+ Cluster 直接传入
+`JedisLockBackend` 即可。`JedisCluster` 和新版本的 `RedisClusterClient` 都属于 `UnifiedJedis`
+体系，会按单个锁 key 的 slot 路由。
 
 ## Lettuce
 

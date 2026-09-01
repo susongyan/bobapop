@@ -244,7 +244,7 @@ watchdog 行为：
 如果不使用 `RedisTemplate`：
 
 - Jedis 2.x/3.x：`boba-pop-jedis-legacy` + `JedisPool`；
-- Jedis 4.x+：`boba-pop-jedis-modern` + `JedisPooled`、`JedisCluster` 或 `UnifiedJedis`；
+- Jedis 4.x+：`boba-pop-jedis-modern` + `JedisPooled`、`JedisCluster`、`RedisClusterClient` 或 `UnifiedJedis`；
 - Lettuce 5.x+：`boba-pop-lettuce` + `StatefulRedisConnection` 或 Cluster connection。
 
 完整配置和连接生命周期说明见[快速开始与客户端接入](docs/getting-started.md)。
@@ -270,8 +270,6 @@ watchdog 行为：
 - [ ] 捕获 `LockLostException` 后停止依赖独占性的写操作；
 - [ ] watchdog 场景配置最大自动续租时长；
 - [ ] 关键外部写入配合幂等、CAS、唯一约束或 fencing token；
-- [ ] Lettuce 同步锁调用不运行在 Netty 事件循环线程；
-- [ ] Cluster 使用单 key 和合理 hash tag，不跨 slot 执行脚本。
 
 ## 文档导航
 

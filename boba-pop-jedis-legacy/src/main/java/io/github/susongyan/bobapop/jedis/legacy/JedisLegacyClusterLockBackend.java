@@ -1,6 +1,7 @@
 package io.github.susongyan.bobapop.jedis.legacy;
 
-import io.github.susongyan.bobapop.core.RedisLockBackend;
+import io.github.susongyan.bobapop.core.AbstractRedisLockBackend;
+import io.github.susongyan.bobapop.core.RedisLockScripts;
 import redis.clients.jedis.JedisCluster;
 
 import java.util.Arrays;
@@ -11,14 +12,7 @@ import java.util.Collections;
  * The caller owns the cluster client and must close it during application shutdown.
  * All operations use one key, so Jedis routes them to the slot owner.
  */
-public final class JedisLegacyClusterLockBackend implements RedisLockBackend {
-    private static final String RENEW_SCRIPT =
-            "if redis.call('get', KEYS[1]) == ARGV[1] then "
-                    + "return redis.call('pexpire', KEYS[1], ARGV[2]) end return 0";
-    private static final String UNLOCK_SCRIPT =
-            "if redis.call('get', KEYS[1]) == ARGV[1] then "
-                    + "return redis.call('del', KEYS[1]) end return 0";
-
+public final class JedisLegacyClusterLockBackend extends AbstractRedisLockBackend {
     private final JedisCluster cluster;
 
     public JedisLegacyClusterLockBackend(JedisCluster cluster) {
@@ -28,19 +22,13 @@ public final class JedisLegacyClusterLockBackend implements RedisLockBackend {
         this.cluster = cluster;
     }
 
-    public boolean acquire(String key, String token, long leaseMillis) {
+    @Override
+    protected boolean setNxPx(String key, String token, long leaseMillis) {
         return "OK".equals(cluster.set(key, token, "NX", "PX", leaseMillis));
     }
 
-    public boolean renewIfOwner(String key, String token, long leaseMillis) {
-        Object result = cluster.eval(RENEW_SCRIPT, Collections.singletonList(key),
-                Arrays.asList(token, Long.toString(leaseMillis)));
-        return result instanceof Number && ((Number) result).longValue() == 1L;
-    }
-
-    public boolean deleteIfOwner(String key, String token) {
-        Object result = cluster.eval(UNLOCK_SCRIPT, Collections.singletonList(key),
-                Collections.singletonList(token));
-        return result instanceof Number && ((Number) result).longValue() == 1L;
+    @Override
+    protected Object evalScript(RedisLockScripts.Script script, String key, String... args) {
+        return cluster.eval(script.source(), Collections.singletonList(key), Arrays.asList(args));
     }
 }
